@@ -40,11 +40,14 @@ class CIFAR100Instance(datasets.CIFAR100):
     """CIFAR100Instance Dataset.
     """
     def __getitem__(self, index):
-        if self.train:
-            img, target = self.train_data[index], self.train_labels[index]
-        else:
-            img, target = self.test_data[index], self.test_labels[index]
+        """
+        Args:
+            index (int): Index
 
+        Returns:
+            tuple: (image, target) where target is index of the target class.
+        """
+        img, target = self.data[index], self.targets[index]
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
         img = Image.fromarray(img)
@@ -121,11 +124,11 @@ class CIFAR100InstanceSample(datasets.CIFAR100):
 
         num_classes = 100
         if self.train:
-            num_samples = len(self.train_data)
-            label = self.train_labels
+            num_samples = len(self.data)
+            label = self.targets
         else:
-            num_samples = len(self.test_data)
-            label = self.test_labels
+            num_samples = len(self.data)
+            label = self.targets
 
         self.cls_positive = [[] for i in range(num_classes)]
         for i in range(num_samples):
@@ -150,10 +153,14 @@ class CIFAR100InstanceSample(datasets.CIFAR100):
         self.cls_negative = np.asarray(self.cls_negative)
 
     def __getitem__(self, index):
-        if self.train:
-            img, target = self.train_data[index], self.train_labels[index]
-        else:
-            img, target = self.test_data[index], self.test_labels[index]
+        """
+        Args:
+            index (int): Index
+
+        Returns:
+            tuple: (image, target) where target is index of the target class.
+        """
+        img, target = self.data[index], self.targets[index]
 
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image

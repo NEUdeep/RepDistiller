@@ -265,7 +265,7 @@ def main():
         raise NotImplementedError(opt.distill)
 
     criterion_list = nn.ModuleList([])
-    criterion_list.append(criterion_cls)    # classification loss
+    criterion_list.append(criterion_cls)    # classification loss: nn.CrossEntropyLoss()
     criterion_list.append(criterion_div)    # KL divergence loss, original knowledge distillation
     criterion_list.append(criterion_kd)     # other knowledge distillation loss
 
@@ -294,7 +294,7 @@ def main():
         print("==> training...")
 
         time1 = time.time()
-        train_acc, train_loss = train(epoch, train_loader, module_list, criterion_list, optimizer, opt)
+        train_acc, train_loss = train(epoch, train_loader, module_list, criterion_list, optimizer, opt) # train_distill
         time2 = time.time()
         print('epoch {}, total time {:.2f}'.format(epoch, time2 - time1))
 
